@@ -1,5 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { calculatePrice, setCart, getCart } from "../utils";
+
 import Strapi from "strapi-sdk-javascript/build/main";
 const apiUrl = process.env.API_URL || "http://localhost:1337";
 const strapi = new Strapi(apiUrl);
@@ -28,13 +30,13 @@ class Products extends React.Component {
                     price
                   }
                 }
-                }
-              `,
+                }`,
         },
       });
       this.setState({
         products: response.data.brand.products,
         brand: response.data.brand.name,
+        cartItems: getCart(),
       });
       // console.log(response);
     } catch (err) {
@@ -52,11 +54,11 @@ class Products extends React.Component {
         ...product,
         quantity: 1,
       });
-      this.setState({ cartItems: updatedItems });
+      this.setState({ cartItems: updatedItems }, () => setCart(updatedItems));
     } else {
       const updatedItems = [...this.state.cartItems];
       updatedItems[alreadyInCart].quantity += 1;
-      this.setState({ cartItems: updatedItems });
+      this.setState({ cartItems: updatedItems }, () => setCart(updatedItems));
     }
   };
 
@@ -65,7 +67,7 @@ class Products extends React.Component {
       (item) => item._id !== itemToDeleteId
     );
 
-    this.setState({ cartItems: filteredItems });
+    this.setState({ cartItems: filteredItems }, () => setCart(filteredItems));
   };
 
   render() {
@@ -119,7 +121,7 @@ class Products extends React.Component {
                 {cartItems.length === 0 && (
                   <Card.Text>No Items Found</Card.Text>
                 )}
-                <Card.Text>Total: $</Card.Text>
+                <Card.Text>Total: ${calculatePrice(cartItems)}</Card.Text>
                 <Card.Link href="/checkout">Checkout</Card.Link>
               </Card.Body>
             </Card>
