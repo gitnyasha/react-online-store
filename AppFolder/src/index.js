@@ -8,6 +8,7 @@ import Signin from "./component/Signin";
 import Signup from "./component/Signup";
 import Checkout from "./component/Checkout";
 import Mynav from "./component/Navbar";
+import Products from "./component/Products";
 
 const Root = () => {
   return (
@@ -19,6 +20,7 @@ const Root = () => {
           <Route component={Signin} path="/signin" />
           <Route component={Signup} path="/signup" />
           <Route component={Checkout} path="/checkout" />
+          <Route component={Products} path="/:brandId" />
         </Switch>
       </React.Fragment>
     </Router>

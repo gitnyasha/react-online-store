@@ -16,7 +16,7 @@ const strapi = new Strapi(apiUrl);
 class App extends React.Component {
   state = {
     brands: [],
-    searchTerm: "",
+    // cartItems: [],
   };
 
   async componentDidMount() {
@@ -43,14 +43,8 @@ class App extends React.Component {
     }
   }
 
-  handleChange = ({ value }) => {
-    this.setState({ searchTerm: value });
-  };
-
-  filteredBrands = ({ searchTerm, brands }) => {
-    return brands.filter((brand) => {
-      return brand.name.toLowerCase().includes(searchTerm.toLowerCase());
-    });
+  handleChange = (event) => {
+    console.log(event);
   };
 
   render() {
@@ -78,7 +72,7 @@ class App extends React.Component {
         <Row>
           <Col sm={3}>Catgories</Col>
           <Col sm={9} style={{ display: "flex" }}>
-            {this.filteredBrands(this.state).map((brand) => (
+            {brands.map((brand) => (
               <Card style={{ width: "24%", margin: "5px" }} key={brand._id}>
                 <Card.Img
                   height={200}

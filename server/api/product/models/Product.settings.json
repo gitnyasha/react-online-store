@@ -2,7 +2,7 @@
   "connection": "default",
   "collectionName": "",
   "info": {
-    "name": "brand",
+    "name": "product",
     "description": ""
   },
   "options": {
@@ -20,9 +20,12 @@
       "via": "related",
       "plugin": "upload"
     },
-    "products": {
-      "collection": "product",
-      "via": "brand"
+    "price": {
+      "type": "decimal"
+    },
+    "brand": {
+      "model": "brand",
+      "via": "products"
     }
   }
 }
