@@ -4874,10 +4874,10 @@ gensync@^1.0.0-beta.1:
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.1.tgz#58f4361ff987e5ff6e1e7a210827aa371eaac269"
   integrity sha512-r8EC6NO1sngH/zdD9fiRDLdcgnbayXah+mLgManTaIZJqEC1MZstmnox8KpnI2/fxQwrp5OpCOYWLp4rBl4Jcg==
 
-gestalt@^5.10.0:
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/gestalt/-/gestalt-5.10.0.tgz#a1ef1bf752e7f7d8a992a56bf2ee5b7d4e97793e"
-  integrity sha512-ksHUkYNC2s1Eb9hcH0Yd52PztBlvfPBWdAVCbDiVnY/BAyvt2L53cGaLkSVuBZiBtmvJrAve5zCyd/pZ4NZvrg==
+gestalt@^5.11.0:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/gestalt/-/gestalt-5.11.0.tgz#ae0f5df9e5fc96d9272a2e9d0ae2802799daab6e"
+  integrity sha512-DVZfq+sx3/yoSRhvifchpfvXjhSzhKlYj20OEMsWa68CO13jICv7lgTUPDGnKB6H+DZXzXbM1rJvp0HjDOW2cw==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.7.2"

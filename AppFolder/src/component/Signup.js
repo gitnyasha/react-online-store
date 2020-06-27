@@ -1,5 +1,11 @@
 import React from "react";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { Container, Box, Button, Heading, TextField } from "gestalt";
+import ToastMessage from "./ToastMessage";
+import { Row, Col } from "react-bootstrap";
+import { setToken } from "../utils";
+import Strapi from "strapi-sdk-javascript/build/main";
+const apiUrl = process.env.API_URL || "http://localhost:1337/";
+const strapi = new Strapi(apiUrl);
 
 class Signup extends React.Component {
   state = {
@@ -8,6 +14,7 @@ class Signup extends React.Component {
     password: "",
     toast: false,
     toastMessage: "",
+    loading: false,
   };
 
   handleChange = ({ event, value }) => {
@@ -15,12 +22,28 @@ class Signup extends React.Component {
     this.setState({ [event.target.name]: value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
+    const { username, email, password } = this.state;
     if (this.isFormEmpty(this.state)) {
       this.showToast("Fill all fields");
+      return;
+    }
+
+    try {
+      this.setState({ loading: true });
+      const response = await strapi.register(username, email, password);
+      this.setState({ loading: false });
+      setToken(response.jwt);
+      console.log(response);
+      this.redirectUser("/");
+    } catch (err) {
+      this.setState({ loading: false });
+      this.showToast(err.message);
     }
   };
+
+  redirectUser = (path) => this.props.history.push(path);
 
   isFormEmpty = ({ username, email, password }) => {
     return !username || !email || !password;
@@ -32,52 +55,74 @@ class Signup extends React.Component {
   };
 
   render() {
+    const { toastMessage, toast, loading } = this.state;
     return (
       <Container>
         <Row className="justify-content-md-center">
           <Col md="auto">
-            Sign Up
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <Form.Control
-                  id="username"
-                  name="username"
-                  type="username"
-                  placeholder="username"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Control
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  onChange={this.handleChange}
-                />
-                <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                </Form.Text>
-              </Form.Group>
+            <Box
+              dangerouslySetInlineStyle={{
+                __style: {
+                  backgroundColor: "#ebe2da",
+                },
+              }}
+              margin={4}
+              padding={4}
+              shape="rounded"
+              display="flex"
+              justifyContent="center"
+            >
+              <form
+                style={{
+                  display: "inlineBlock",
+                  textAlign: "center",
+                  maxWidth: 450,
+                }}
+                onSubmit={this.handleSubmit}
+              >
+                <Box
+                  marginBottom={2}
+                  display="flex"
+                  direction="column"
+                  alignItems="center"
+                >
+                  <Heading>Sign up</Heading>
+                  <TextField
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="username"
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="email"
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="password"
+                    onChange={this.handleChange}
+                  />
 
-              <Form.Group>
-                <Form.Control
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Check type="checkbox" label="Check me out" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
+                  <Button
+                    inline
+                    disabled={loading}
+                    color="blue"
+                    text="Submit"
+                    type="submit"
+                  />
+                </Box>
+              </form>
+            </Box>
           </Col>
         </Row>
+
+        <ToastMessage show={toast} message={toastMessage} />
       </Container>
     );
   }

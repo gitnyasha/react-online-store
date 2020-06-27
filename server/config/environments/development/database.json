@@ -13,7 +13,8 @@
         "srv": true
       },
       "options": {
-        "ssl": true
+        "ssl": true,
+        "useUnifiedTopology": true
       }
     }
   }

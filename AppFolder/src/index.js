@@ -1,6 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import App from "./component/App";
 import "bootstrap/dist/css/bootstrap.css";
 import registerServiceWorker from "./registerServiceWorker";
@@ -9,6 +14,18 @@ import Signup from "./component/Signup";
 import Checkout from "./component/Checkout";
 import Mynav from "./component/Navbar";
 import Products from "./component/Products";
+import { getToken } from "./utils";
+
+const Private = ({ component: Component, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        getToken() !== null ? <Component {...props} /> : <Redirect to={{}} />
+      }
+    />
+  );
+};
 
 const Root = () => {
   return (

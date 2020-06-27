@@ -58,7 +58,7 @@ class App extends React.Component {
             <Form inline>
               <FormControl
                 id="searchField"
-                accessibilityLabel="Brands Search Field"
+                accessibilitylabel="Brands Search Field"
                 onChange={this.handleChange}
                 type="text"
                 placeholder="Search"
