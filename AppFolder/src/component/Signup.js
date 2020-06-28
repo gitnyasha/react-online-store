@@ -61,11 +61,6 @@ class Signup extends React.Component {
         <Row className="justify-content-md-center">
           <Col md="auto">
             <Box
-              dangerouslySetInlineStyle={{
-                __style: {
-                  backgroundColor: "#ebe2da",
-                },
-              }}
               margin={4}
               padding={4}
               shape="rounded"

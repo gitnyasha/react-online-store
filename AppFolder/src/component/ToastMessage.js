@@ -4,16 +4,7 @@ import { Box, Toast } from "gestalt";
 const ToastMessage = ({ show, message }) => {
   return (
     show && (
-      <Box
-        dangerouslySetInlineStyle={{
-          __style: {
-            bottom: 250,
-            left: "50%",
-            transform: "translateX(-50%)",
-          },
-        }}
-        position="fixed"
-      >
+      <Box>
         <Toast color="red" text={message} />
       </Box>
     )

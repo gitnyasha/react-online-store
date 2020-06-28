@@ -9,6 +9,7 @@ import {
   Form,
   FormControl,
 } from "react-bootstrap";
+import Loader from "./Loader";
 import Strapi from "strapi-sdk-javascript/build/main";
 const apiUrl = process.env.API_URL || "http://localhost:1337";
 const strapi = new Strapi(apiUrl);
@@ -17,6 +18,7 @@ class App extends React.Component {
   state = {
     brands: [],
     // cartItems: [],
+    loadingBrands: true,
   };
 
   async componentDidMount() {
@@ -36,10 +38,11 @@ class App extends React.Component {
           `,
         },
       });
-      this.setState({ brands: response.data.brands });
+      this.setState({ brands: response.data.brands, loadingBrands: false });
       // console.log(response);
     } catch (err) {
       console.error(err);
+      this.setState({ loadingBrands: false });
     }
   }
 
@@ -48,7 +51,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { brands } = this.state;
+    const { brands, loadingBrands } = this.state;
 
     return (
       <Container fluid>
@@ -89,6 +92,8 @@ class App extends React.Component {
             ))}
           </Col>
         </Row>
+        {/* <Spinner show={loadingBrands} accessibilitylabel="Loading Spinner" /> */}
+        <Loader show={loadingBrands} />
       </Container>
     );
   }
